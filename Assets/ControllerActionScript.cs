@@ -21,12 +21,10 @@ public class ControllerActionScript : MonoBehaviour
         }
 
         collidingObject = col.gameObject;
-        print("setcollidingobj");
     }
 
     public void OnTriggerEnter(Collider other)
     {
-        print("triggerenter");
         SetCollidingObject(other);
     }
 
@@ -37,7 +35,6 @@ public class ControllerActionScript : MonoBehaviour
 
     public void OnTriggerExit(Collider other)
     {
-        print("triggerexit");
         if(!collidingObject)
         {
             return;
@@ -81,11 +78,9 @@ public class ControllerActionScript : MonoBehaviour
     {
         if(grabAction.GetLastStateDown(handType))
         {
-            print("Trygrab");
             if (collidingObject)
             {
                 GrabObject();
-                print("Grabaction");
             }
         }
 
