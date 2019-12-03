@@ -9,47 +9,24 @@ public class Bowl : MonoBehaviour
 
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
-        rb.freezeRotation = true;
+        //rb = GetComponent<Rigidbody>();
+        //rb.freezeRotation = true;
     }
 
     void Update()
     {
-        // MOVES THE BOWL AROUND
-        rb.velocity = new Vector3(0, 0, 0);
-        if (Input.GetKey(KeyCode.D))
-        {
-            rb.velocity += transform.right * speed;
-        }
-        if (Input.GetKey(KeyCode.A))
-        {
-            rb.velocity += -transform.right * speed;
-        }
-        if (Input.GetKey(KeyCode.W))
-        {
-            rb.velocity += new Vector3(0, 0, 1) * speed;
-        }
-        if (Input.GetKey(KeyCode.S))
-        {
-            rb.velocity += new Vector3(0, 0, -1) * speed;
-        }
-        if (Input.GetKey(KeyCode.Space))
-        {
-            rb.velocity += new Vector3(0, 1, 0) * speed;
-        }
-        if (Input.GetKey(KeyCode.LeftShift))
-        {
-            rb.velocity += new Vector3(0, -1, 0) * speed;
-        }
+
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.collider.gameObject.tag == "Bubble")
         {
-
-            Debug.Log("Bubble Collided with Bowl!");
-            Destroy(collision.collider.gameObject);
+            if(!collision.collider.gameObject.GetComponent<Bubble>().floating)
+            {
+                Debug.Log("Bubble Collided with Bowl!");
+                Destroy(collision.collider.gameObject);
+            }
         }
 
     }

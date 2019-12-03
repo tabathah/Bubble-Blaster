@@ -6,7 +6,7 @@ public class Bubble : MonoBehaviour
 {
     public Camera camera;
     public float popTime = 20.0f;
-    private bool floating = true;
+    public bool floating = true;
     private Vector3 velocity = new Vector3(0, 0, 0);
 
 
@@ -26,6 +26,7 @@ public class Bubble : MonoBehaviour
         {
             velocity = squareToDiskUniform(new Vector2(Random.Range(-10.0f, 10.0f),
                                                        Random.Range(-10.0f, 10.0f))).normalized;
+            velocity.y = Mathf.Abs(velocity.y);
         }
         Debug.Log(velocity);
         startBubblePop();
@@ -45,26 +46,18 @@ public class Bubble : MonoBehaviour
         }
     }
 
+    public void shootBubble()
+    {
+        Debug.Log("Touched Bubble!");
+        this.GetComponent<Rigidbody>().useGravity = true;
+        floating = false;
+        gameObject.GetComponent<Renderer>().materials[0].color = Color.cyan;
+    }
+
     // Update is called once per frame
     void Update()
     {
         
-        if (Input.GetMouseButtonDown(0))
-        { // if left button pressed...
-            Ray ray = camera.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit))
-            {
-                // the object identified by hit.transform was clicked
-                // do whatever you wants
-                if (hit.collider.gameObject == this.gameObject)
-                {
-                    Debug.Log("Touched Bubble!");
-                    this.GetComponent<Rigidbody>().useGravity = true;
-                    floating = false;
-                }
-            }
-        }
         if (floating) {
             // bubble floating behavior
             Rigidbody rb = GetComponent<Rigidbody>();
@@ -72,4 +65,5 @@ public class Bubble : MonoBehaviour
         }
 
     }
+
 }

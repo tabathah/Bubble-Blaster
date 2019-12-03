@@ -78,7 +78,7 @@ public class ControllerActionScript : MonoBehaviour
     {
         if(grabAction.GetLastStateDown(handType))
         {
-            if (collidingObject)
+            if (collidingObject && collidingObject.tag != "Bubble")
             {
                 GrabObject();
             }

@@ -9,23 +9,39 @@ public class BubbleDispenser : MonoBehaviour
     public Camera camera;
     public float speed = 2.0f;
     private bool on = false;
+    private float onTime = 5;
+    private float lastTime;
 
     private void Start()
     {
         startSpawnBubbles();
+        lastTime = Time.realtimeSinceStartup;
+        gameObject.GetComponent<Renderer>().materials[0].color = Color.red;
     }
     private void Update()
     {
-        // turn dispenser on or off
-        if (Input.GetMouseButtonDown(0))
-        { // if left button pressed...
-            Ray ray = camera.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit))
+        float currTime = Time.realtimeSinceStartup;
+        if(on)
+        {
+            onTime -= currTime - lastTime;
+            if(onTime < 0)
             {
-                on = !on;
-                Debug.Log("turned on?: " + on);
+                gameObject.GetComponent<Renderer>().materials[0].color = Color.red;
+                on = false;
+                onTime = 5;
+                print("off");
             }
+        }
+        lastTime = currTime;
+    }
+
+    public void pressButton()
+    {
+        if(!on)
+        {
+            gameObject.GetComponent<Renderer>().materials[0].color = Color.green;
+            print("on");
+            on = true;
         }
     }
 
@@ -48,6 +64,5 @@ public class BubbleDispenser : MonoBehaviour
         yield return new WaitForSeconds(speed);
         startSpawnBubbles();
     }
-
 
 }
