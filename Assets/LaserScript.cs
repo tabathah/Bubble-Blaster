@@ -7,7 +7,13 @@ public class LaserScript : MonoBehaviour
 {
     public SteamVR_Input_Sources handType;
     public SteamVR_Behaviour_Pose controllerPose;
-    public SteamVR_Action_Boolean teleportAction;
+    public SteamVR_Action_Boolean laserAction;
+    public SteamVR_Action_Boolean freezeAction;
+
+    public ParticleSystem ps;
+
+    private ParticleSystem freezeRay;
+    private Transform freezeTransform;
 
     public GameObject laserPrefab;
     private GameObject laser;
@@ -22,6 +28,8 @@ public class LaserScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        freezeRay = Instantiate(ps);
+        freezeTransform = freezeRay.transform;
         laser = Instantiate(laserPrefab);
         laserTransform = laser.transform;
         lastTime = Time.realtimeSinceStartup;
@@ -32,22 +40,37 @@ public class LaserScript : MonoBehaviour
     void Update()
     {
         float currTime = Time.realtimeSinceStartup;
-        if(teleportAction.GetState(handType) && timer <= 0 && upTime <= 0.3f)
+        if(timer <= 0 && upTime <= 0.3f)
         {
             onCd = false;
             upTime += currTime - lastTime;
-            RaycastHit hit;
-            if (Physics.Raycast(controllerPose.transform.position, transform.forward, out hit, 100))
+            if(laserAction.GetLastState(handType))
             {
-                hitPoint = hit.point;
-                ShowLaser(hit);
-                if(hit.collider.gameObject.tag == "Dispenser")
+                //print("laser");
+                RaycastHit hit;
+                if (Physics.Raycast(controllerPose.transform.position, transform.forward, out hit, 100))
                 {
-                    hit.collider.gameObject.GetComponent<BubbleDispenser>().pressButton();
+                    hitPoint = hit.point;
+                    ShowLaser(hit);
+                    if (hit.collider.gameObject.tag == "Dispenser")
+                    {
+                        hit.collider.gameObject.GetComponent<BubbleDispenser>().pressButton();
+                    }
+                    else if (hit.collider.gameObject.tag == "Bubble")
+                    {
+                        hit.collider.gameObject.GetComponent<Bubble>().shootBubble();
+                    }
                 }
-                else if(hit.collider.gameObject.tag == "Bubble")
+            }
+            if(freezeAction.GetState(handType))
+            {
+                //print("freeze");
+                freezeTransform.position = controllerPose.transform.position;
+                freezeTransform.rotation = controllerPose.transform.rotation;
+                if(!freezeRay.isPlaying)
                 {
-                    hit.collider.gameObject.GetComponent<Bubble>().shootBubble();
+
+                    freezeRay.Play();
                 }
             }
         }

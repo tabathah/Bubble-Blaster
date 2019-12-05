@@ -7,6 +7,8 @@ TagManager:
   - Bubble
   - Laser
   - Dispenser
+  - Bowl
+  - Pitcher
   layers:
   - Default
   - TransparentFX
