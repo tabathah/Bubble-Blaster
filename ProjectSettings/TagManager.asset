@@ -7,9 +7,14 @@ TagManager:
   - Bubble
   - Laser
   - Dispenser
+<<<<<<< HEAD
+  - Bowl
+  - Pitcher
+=======
   - projectile
   - FxTemporaire
   - Bowl
+>>>>>>> master
   layers:
   - Default
   - TransparentFX

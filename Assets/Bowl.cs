@@ -24,7 +24,7 @@ public class Bowl : MonoBehaviour
         {
             if(!collision.collider.gameObject.GetComponent<Bubble>().floating)
             {
-                Debug.Log("Bubble Collided with Bowl!");
+                //Debug.Log("Bubble Collided with Bowl!");
                 Destroy(collision.collider.gameObject);
             }
         }
