@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 3596294926057755370}
   - component: {fileID: 3596294926057755350}
   - component: {fileID: 3596294926057755351}
+  - component: {fileID: 2867873931700924967}
   m_Layer: 0
   m_Name: Bubble
   m_TagString: Bubble
@@ -106,8 +107,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25bed0c07e1ea3c4b8797de0dea4e0fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  camera: {fileID: 0}
   popTime: 40
+  floating: 1
 --- !u!54 &3596294926057755351
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -124,3 +125,16 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &2867873931700924967
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3596294926057755369}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e4d599ff51a67948888b3851a2b491d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flavor: 0

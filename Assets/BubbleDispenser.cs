@@ -6,11 +6,12 @@ public class BubbleDispenser : MonoBehaviour
 {
     // Reference to the Prefab. Drag a Prefab into this field in the Inspector.
     public GameObject bubble;
-    public Camera camera;
+    //public Camera camera;
     public float speed = 2.0f;
     private bool on = false;
     private float onTime = 5;
     private float lastTime;
+    public int flavor; 
 
     private void Start()
     {
@@ -57,6 +58,7 @@ public class BubbleDispenser : MonoBehaviour
         {
             Debug.Log("Spawned a Bubble");
             GameObject b = Instantiate(bubble, this.gameObject.transform.position, Quaternion.identity);
+            b.GetComponent<Flavor>().flavor = this.flavor;
             //b.transform.parent = gameObject.transform;
             //b.GetComponent<Bubble>().camera = camera;
         }
