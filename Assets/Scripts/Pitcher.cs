@@ -12,10 +12,16 @@ public class Pitcher : MonoBehaviour
     private float disableTime;
     private Vector3 disablePos;
     private Quaternion disableRot;
+    public Vector3 startPos;
+    public Quaternion startRot;
+
     // Start is called before the first frame update
     void Start()
     {
         m_Text = gameObject.GetComponentInChildren<Text>();
+
+        startPos = gameObject.transform.position;
+        startRot = gameObject.transform.rotation;
     }
 
     // Update is called once per frame
@@ -97,5 +103,4 @@ public class Pitcher : MonoBehaviour
             disableRot = gameObject.transform.rotation;
         }
     }
-
 }

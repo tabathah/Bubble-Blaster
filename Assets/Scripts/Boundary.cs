@@ -34,7 +34,10 @@ public class Boundary : MonoBehaviour
         }
         else if (obj.tag == "Pitcher")
         {
-            obj.transform.position = new Vector3(1.5f, 1, -0.5f);
+            Debug.Log("pitcher out of bounds");
+            Pitcher pitcher = other.GetComponentInParent<Pitcher>();
+            pitcher.transform.position = pitcher.startPos;
+            pitcher.transform.rotation = pitcher.startRot;
             Rigidbody rb = obj.GetComponent<Rigidbody>();
             if (rb)
             {
