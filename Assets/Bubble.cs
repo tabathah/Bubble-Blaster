@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class Bubble : MonoBehaviour
 {
-    public Camera camera;
+    //public Camera camera;
     public float popTime = 20.0f;
     public bool floating = true;
     private Vector3 velocity = new Vector3(0, 0, 0);
 
     // these are flavor components
+    //public 
 
 
     Vector3 squareToDiskUniform(Vector2 v)

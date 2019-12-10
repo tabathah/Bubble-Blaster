@@ -58,7 +58,7 @@ public class BubbleDispenser : MonoBehaviour
             Debug.Log("Spawned a Bubble");
             GameObject b = Instantiate(bubble, this.gameObject.transform.position, Quaternion.identity);
             //b.transform.parent = gameObject.transform;
-            b.GetComponent<Bubble>().camera = camera;
+            //b.GetComponent<Bubble>().camera = camera;
         }
 
         yield return new WaitForSeconds(speed);
