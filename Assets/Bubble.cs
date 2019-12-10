@@ -10,6 +10,8 @@ public class Bubble : MonoBehaviour
     private Vector3 velocity = new Vector3(0, 0, 0);
     private float lastTime;
 
+    // these are flavor components
+
 
     Vector3 squareToDiskUniform(Vector2 v)
     {
