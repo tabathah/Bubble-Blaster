@@ -35,17 +35,14 @@ public class Global : MonoBehaviour
             timer = 0.0f;
             float xPos = Random.Range(0.0f, counterRadius + circleOriginX);
             float yPos = -0.25f;
-            float zPos = Mathf.Sqrt(Mathf.Pow(counterRadius, 2) - Mathf.Pow(xPos - circleOriginX, 2)) + circleOriginZ;
+            float zPos = -Mathf.Sqrt(Mathf.Pow(counterRadius, 2) - Mathf.Pow(xPos - circleOriginX, 2)) + circleOriginZ;
+
+            // TODO: restrict respawn area of customers so they don't spawn too close to each other or spawn colliding with another customer (they like their personal space)
 
             // randomly invert x or z
             if (Random.Range(0.0f, 1.0f) > 0.5f)
             {
                 xPos *= -1;
-            }
-
-            if (Random.Range(0.0f, 1.0f) > 0.5f)
-            {
-                zPos *= -1;
             }
 
             Vector3 at = new Vector3(-xPos, yPos, -zPos);
@@ -54,7 +51,6 @@ public class Global : MonoBehaviour
 
             Instantiate(custToSpawn, new Vector3(xPos, yPos, zPos), quat);
             firstGen = true;
-            // TODO: restrict respawn area of customers
         }
     }
 }
