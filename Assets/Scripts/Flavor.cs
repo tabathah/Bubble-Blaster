@@ -9,6 +9,7 @@ public class Flavor : MonoBehaviour
     // 2 = strawberry
     public int flavor;
     public static int maxFlavors = 3; // CHANGE THIS IF ADDING MORE FLAVORS
+    public float amount;
    
 
 
@@ -41,5 +42,10 @@ public class Flavor : MonoBehaviour
     public void changeFlavor(int f)
     {
         flavor = f;
+    }
+
+    public void changeAmount(float amt)
+    {
+        amount = amt;
     }
 }

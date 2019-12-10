@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bowl : MonoBehaviour
+public class IceCreamBowl : MonoBehaviour
 {
     Rigidbody rb;
     public float speed = 5.0f;
@@ -11,14 +11,16 @@ public class Bowl : MonoBehaviour
     public GameObject icecreamScoop;
     public GameObject[] currScoops = new GameObject[Flavor.maxFlavors];
 
+    private float disableTime;
+    private Vector3 disablePos;
+    private Quaternion disableRot;
+    private bool hitCustomer;
+
+
 
     void Start()
     {
-        /*for(int i = 0; i < amount.Length; i++)
-        {
-            currScoops[i] = Instantiate(icecreamScoop, gameObject.transform.position, Quaternion.identity);
-            currScoops[i].GetComponent<Flavor>().changeFlavor(i);
-        }*/
+
     }
 
     void Update()
@@ -30,11 +32,31 @@ public class Bowl : MonoBehaviour
             {
                 currScoops[i] = Instantiate(icecreamScoop, gameObject.transform.position, Quaternion.identity);
                 currScoops[i].GetComponent<Flavor>().changeFlavor(i);
+                currScoops[i].GetComponent<Flavor>().changeAmount(amount[i]);
             }
             currPos.y += amount[i] * 0.05f;
             currScoops[i].transform.localScale = new Vector3(amount[i] * 0.1f, amount[i] * 0.1f, amount[i] * 0.1f);
             currScoops[i].transform.position = gameObject.transform.rotation * currPos + gameObject.transform.position;
             currPos.y += amount[i] * 0.05f;
+        }
+
+        if (disableTime > 0)
+        {
+            disableTime -= Time.deltaTime;
+            gameObject.transform.position = disablePos;
+            gameObject.transform.rotation = disableRot;
+        }
+
+        if ((disableTime <= 0) && (hitCustomer))
+        {
+            // remove ice cream scoops and bowl from scene
+
+            for (int i = 0; i < amount.Length; i++)
+            {
+                Destroy(currScoops[i]);
+            }
+
+            Destroy(gameObject);
         }
     }
 
@@ -48,7 +70,16 @@ public class Bowl : MonoBehaviour
                 Destroy(collision.collider.gameObject);
             }
         }
-
+        else if (collision.collider.gameObject.tag == "Customer")
+        {
+            Debug.Log("hit customer with bowl, customer maybe upset");
+            disableTime = 0.5f;
+            hitCustomer = true;
+            disablePos = gameObject.transform.position;
+            disableRot = gameObject.transform.rotation;
+            Customer cust = collision.collider.gameObject.GetComponentInParent<Customer>();
+            cust.EatIceCream(currScoops);
+        }
     }
 
     public void addIceCream(float[] amt)

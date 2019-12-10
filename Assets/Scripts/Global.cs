@@ -54,6 +54,7 @@ public class Global : MonoBehaviour
 
             Instantiate(custToSpawn, new Vector3(xPos, yPos, zPos), quat);
             firstGen = true;
+            // TODO: restrict respawn area of customers
         }
     }
 }

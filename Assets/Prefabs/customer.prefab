@@ -10,9 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 3852331426122668940}
   - component: {fileID: 228947859214133632}
+  - component: {fileID: -2938747523293150918}
   m_Layer: 0
   m_Name: customer
-  m_TagString: Untagged
+  m_TagString: Customer
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -46,7 +47,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e039aad499866b4ea2b719a6b278a36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  order: {fileID: 0}
+  order: 00000000
+--- !u!64 &-2938747523293150918
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 228947859214133663}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 1
+  m_CookingOptions: 14
+  m_Mesh: {fileID: 63300649945618914, guid: d9f4c01f3ddedc6448c48139ee019f62, type: 3}
 --- !u!1 &1063350853703288957
 GameObject:
   m_ObjectHideFlags: 0
@@ -182,7 +197,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9505ff66865cb31429443d1f9019744d, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

@@ -10,10 +10,11 @@ TagManager:
   - Pitcher
   - FxTemporaire
   - Dispenser
-  - Bowl
   - PitcherSlot
   - DispenseButton
   - ClearButton
+  - IceCreamBowl
+  - Customer
   layers:
   - Default
   - TransparentFX

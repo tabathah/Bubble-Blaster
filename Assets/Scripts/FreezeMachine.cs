@@ -39,13 +39,11 @@ public class FreezeMachine : MonoBehaviour
         if (len > 0.5f)
         {
             GameObject b = Instantiate(bowl, bowlDispenser.transform.position + new Vector3(0, bowlDispenser.transform.lossyScale.y * 0.5f, 0), Quaternion.identity);
-            b.GetComponent<Bowl>().addIceCream(this.amount);
-            b.GetComponent<Bowl>().icecreamScoop = this.icecreamScoop;
+            b.GetComponent<IceCreamBowl>().addIceCream(this.amount);
+            b.GetComponent<IceCreamBowl>().icecreamScoop = this.icecreamScoop;
             lastBowl = b;
             clearIcecream();
         }
-        
-
     }
 
     public void loadPitcher(float[] amt)

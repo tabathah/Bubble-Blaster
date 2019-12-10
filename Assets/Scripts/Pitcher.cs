@@ -75,7 +75,7 @@ public class Pitcher : MonoBehaviour
                 amount[i] = 0;
                 fills[i].SetActive(false);
             }
-            disableTime = 0.5f;
+            disableTime = 0.1f;
             disablePos = gameObject.transform.position;
             disableRot = gameObject.transform.rotation;
         }
