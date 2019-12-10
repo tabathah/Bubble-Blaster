@@ -72,7 +72,7 @@ public class IceCreamBowl : MonoBehaviour
         }
         else if (collision.collider.gameObject.tag == "Customer")
         {
-            Debug.Log("hit customer with bowl, customer maybe upset");
+            Debug.Log("hit customer with bowl, customer may be upset");
             disableTime = 0.5f;
             hitCustomer = true;
             disablePos = gameObject.transform.position;

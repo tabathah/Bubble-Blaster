@@ -92,3 +92,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   flavor: 0
+  amount: 0

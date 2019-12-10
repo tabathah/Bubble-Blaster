@@ -15,6 +15,8 @@ public class Pitcher : MonoBehaviour
     public Vector3 startPos;
     public Quaternion startRot;
 
+    private AudioSource sendToFreezeMachineSound;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -22,6 +24,8 @@ public class Pitcher : MonoBehaviour
 
         startPos = gameObject.transform.position;
         startRot = gameObject.transform.rotation;
+
+        sendToFreezeMachineSound = gameObject.GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -72,25 +76,18 @@ public class Pitcher : MonoBehaviour
                 Destroy(collision.collider.gameObject);
             }
         }
-        else if (collision.collider.gameObject.tag == "PitcherSlot")
-        {
-            FreezeMachine fm = collision.collider.gameObject.GetComponentInParent<FreezeMachine>();
-            fm.loadPitcher(amount);
-            for(int i = 0; i < amount.Length; i++)
-            {
-                amount[i] = 0;
-                fills[i].SetActive(false);
-            }
-            disableTime = 0.1f;
-            disablePos = gameObject.transform.position;
-            disableRot = gameObject.transform.rotation;
-        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "PitcherSlot")
         {
+            print("collison between pitcher");
+            if (!sendToFreezeMachineSound.isPlaying)
+            {
+                sendToFreezeMachineSound.Play();
+            }
+
             FreezeMachine fm = other.gameObject.GetComponentInParent<FreezeMachine>();
             fm.loadPitcher(amount);
             for (int i = 0; i < amount.Length; i++)
