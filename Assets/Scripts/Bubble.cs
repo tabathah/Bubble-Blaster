@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class Bubble : MonoBehaviour
 {
-    public Camera camera;
+    //public Camera camera;
     public float popTime = 5.0f;
     public bool floating = true;
     private Vector3 velocity = new Vector3(0, 0, 0);
     private float lastTime;
 
     // these are flavor components
+    //public 
 
 
     Vector3 squareToDiskUniform(Vector2 v)
@@ -28,9 +29,11 @@ public class Bubble : MonoBehaviour
         this.GetComponent<Rigidbody>().useGravity = false;
         while (velocity == new Vector3(0, 0, 0))
         {
-            velocity = squareToDiskUniform(new Vector2(Random.Range(-1.0f, 1.0f),
-                                                       Random.Range(-0.5f, 0.5f))).normalized;
-            velocity.y = Mathf.Abs(velocity.y);
+            //velocity = squareToDiskUniform(new Vector2(Random.Range(-1.0f, 1.0f),
+            //                                           Random.Range(-0.5f, 0.5f))).normalized;
+            velocity = -gameObject.transform.position.normalized;
+            velocity = Quaternion.Euler(0, Random.Range(-45, 45), Random.Range(0,30)) * velocity;
+            velocity.y = Mathf.Abs(velocity.y * 0.5f);
             GetComponent<Rigidbody>().velocity = velocity;
         }
     }
@@ -38,8 +41,11 @@ public class Bubble : MonoBehaviour
     public void shootBubble()
     {
         this.GetComponent<Rigidbody>().useGravity = true;
+        //this.GetComponent<Rigidbody>().drag = 5;
         floating = false;
-        gameObject.GetComponent<Renderer>().materials[0].color = Color.cyan;
+        Color thisCol = gameObject.GetComponent<Renderer>().materials[0].color;
+        Color colorMod = Color.cyan;
+        gameObject.GetComponent<Renderer>().materials[0].color = new Color(0.8f * thisCol.r + 0.2f * colorMod.r, 0.8f * thisCol.g + 0.2f * colorMod.g, 0.8f * thisCol.b + 0.2f * colorMod.b);
         popTime = 4;
     }
 
@@ -53,10 +59,11 @@ public class Bubble : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        if (floating) {
+        if (floating)
+        {
             // bubble floating behavior
             Rigidbody rb = GetComponent<Rigidbody>();
-            if(Vector3.Magnitude(rb.velocity) >= 0.25f)
+            if (Vector3.Magnitude(rb.velocity) >= 0.25f)
             {
                 rb.velocity = rb.velocity * 0.99f;
             }

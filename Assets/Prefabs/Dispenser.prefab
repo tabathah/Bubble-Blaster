@@ -93,8 +93,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bubble: {fileID: 3596294926057755369, guid: 773d183622dd8d9469ad398df7528357, type: 3}
-  camera: {fileID: 0}
-  speed: 1.5
+  speed: 0.15
+  flavor: 0
 --- !u!65 &1831662671864052757
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -40,46 +40,54 @@ public class LaserScript : MonoBehaviour
     void Update()
     {
         float currTime = Time.realtimeSinceStartup;
-        if(timer <= 0 && upTime <= 0.3f)
+        if(timer <= 0 && upTime <= 0.5f)
         {
             onCd = false;
-            upTime += currTime - lastTime;
             if(laserAction.GetLastState(handType))
             {
-                //print("laser");
-                RaycastHit hit;
-                if (Physics.Raycast(controllerPose.transform.position, transform.forward, out hit, 100))
+                upTime += currTime - lastTime;
+                print(freezeAction.GetLastState(handType));
+                if (freezeAction.GetLastState(handType))
                 {
-                    hitPoint = hit.point;
-                    ShowLaser(hit);
-                    if (hit.collider.gameObject.tag == "Dispenser")
+                    print("freeze");
+                    freezeTransform.position = controllerPose.transform.position;
+                    freezeTransform.rotation = controllerPose.transform.rotation;
+                    if (!freezeRay.isPlaying)
                     {
-                        hit.collider.gameObject.GetComponent<BubbleDispenser>().pressButton();
-                    }
-                    else if (hit.collider.gameObject.tag == "Bubble")
-                    {
-                        hit.collider.gameObject.GetComponent<Bubble>().shootBubble();
-                    }
-                }
-            }
-            if(freezeAction.GetState(handType))
-            {
-                //print("freeze");
-                freezeTransform.position = controllerPose.transform.position;
-                freezeTransform.rotation = controllerPose.transform.rotation;
-                if(!freezeRay.isPlaying)
-                {
 
-                    freezeRay.Play();
+                        freezeRay.Play();
+                    }
+                }
+                else
+                {
+                    RaycastHit hit;
+                    if (Physics.Raycast(controllerPose.transform.position, transform.forward, out hit, 1000))
+                    {
+                        hitPoint = hit.point;
+                        ShowLaser(hit);
+                        if (hit.collider.gameObject.tag == "Dispenser")
+                        {
+                            hit.collider.gameObject.GetComponent<BubbleDispenser>().pressButton();
+                        }
+                        else if (hit.collider.gameObject.tag == "Bubble")
+                        {
+                            hit.collider.gameObject.GetComponent<Bubble>().shootBubble();
+                        }
+                    }
                 }
             }
+            else
+            {
+                laser.SetActive(false);
+            }
+            
         }
         else
         {
             if(!onCd)
             {
                 onCd = true;
-                timer = 1;
+                timer = .25f;
                 upTime = 0;
             }
             laser.SetActive(false);

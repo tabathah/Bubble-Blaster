@@ -4,17 +4,16 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Bubble
   - Laser
-  - Dispenser
-<<<<<<< HEAD
-  - Bowl
-  - Pitcher
-=======
+  - Bubble
   - projectile
+  - Pitcher
   - FxTemporaire
+  - Dispenser
   - Bowl
->>>>>>> master
+  - PitcherSlot
+  - DispenseButton
+  - ClearButton
   layers:
   - Default
   - TransparentFX

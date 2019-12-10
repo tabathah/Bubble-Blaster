@@ -25,12 +25,27 @@ public class ControllerActionScript : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
-        SetCollidingObject(other);
+        //print(other.gameObject.tag);
+        if(other.tag == "DispenseButton")
+        {
+            other.gameObject.GetComponentInParent<FreezeMachine>().dispense();
+        }
+        else if (other.tag == "ClearButton")
+        {
+            other.gameObject.GetComponentInParent<FreezeMachine>().clearIcecream();
+        }
+        else
+        {
+            SetCollidingObject(other);
+        }
     }
 
     public void OnTriggerStay(Collider other)
     {
-        SetCollidingObject(other);
+        if (other.gameObject.tag != "DispenseButton" && other.gameObject.tag != "ClearButton")
+        {
+            SetCollidingObject(other);
+        }
     }
 
     public void OnTriggerExit(Collider other)

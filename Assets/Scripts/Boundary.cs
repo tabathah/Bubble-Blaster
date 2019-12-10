@@ -20,7 +20,7 @@ public class Boundary : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         GameObject obj = other.gameObject;
-        if (obj.tag == "Bowl" || obj.tag == "Pitcher")
+        if (obj.tag == "Bowl")
         {
             obj.transform.position = new Vector3(1.5f, 1, 0.5f);
             Rigidbody rb = obj.GetComponent<Rigidbody>();
@@ -31,6 +31,17 @@ public class Boundary : MonoBehaviour
                 rb.transform.eulerAngles = new Vector3(0, 0, 0);
             }
 
+        }
+        else if (obj.tag == "Pitcher")
+        {
+            obj.transform.position = new Vector3(1.5f, 1, -0.5f);
+            Rigidbody rb = obj.GetComponent<Rigidbody>();
+            if (rb)
+            {
+                rb.velocity = new Vector3(0, 0, 0);
+                rb.angularVelocity = new Vector3(0, 0, 0);
+                rb.transform.eulerAngles = new Vector3(0, 0, 0);
+            }
         }
     }
 }
