@@ -9,6 +9,7 @@ public class Customer : MonoBehaviour
     public Text order1;
     public Text order2;
     public Text order3;
+    public Text thanks;
 
     public float totalWaitTime;                  // time since the customer spawned
     public Text waitTimeText;
@@ -85,10 +86,13 @@ public class Customer : MonoBehaviour
 
         Debug.Log("eating ice cream");
 
+        float totalIceCream = 0;
         // calculate customer satisfaction based on accuracy of order
         for (int i = 0; i < scoops.Length; i++)
         {
-            custSatisfaction -= Mathf.Abs(order[i] - scoops[i].GetComponent<Flavor>().amount);
+            float scoopAmt = scoops[i].GetComponent<Flavor>().amount;
+            totalIceCream += scoopAmt;
+            custSatisfaction -= Mathf.Abs(order[i] - scoopAmt) * 10;
         }
 
         // calculate customer satisfaction based on total wait time
@@ -100,5 +104,29 @@ public class Customer : MonoBehaviour
         {
             custSatisfaction -= Mathf.Max((totalWaitTime - custPatience), 0) / 100;
         }
+
+        if (totalIceCream == 0)
+        {
+            // no ice cream given :(
+            custSatisfaction = 0;
+        }
+
+        if (custSatisfaction > 8)
+        {
+            thanks.text = "Thanks!";
+        }
+        else if (custSatisfaction > 5)
+        {
+            thanks.text = "Thanks?";
+        }
+        else
+        {
+            thanks.fontSize = 70;
+            thanks.text = "Can I speak to the manager?";
+        }
+
+        order1.text = "";
+        order2.text = "";
+        order3.text = "";
     }
 }

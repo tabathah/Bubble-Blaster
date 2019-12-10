@@ -14,6 +14,9 @@ public class Pitcher : MonoBehaviour
     private Quaternion disableRot;
     public Vector3 startPos;
     public Quaternion startRot;
+    public Text val1;
+    public Text val2;
+    public Text val3;
 
     private AudioSource sendToFreezeMachineSound;
 
@@ -55,6 +58,13 @@ public class Pitcher : MonoBehaviour
         }
     }
 
+    void UpdateText()
+    {
+        val1.text = System.Math.Round(amount[0], 1).ToString() + " Blue";
+        val2.text = System.Math.Round(amount[1], 1).ToString() + " Red";
+        val3.text = System.Math.Round(amount[2], 1).ToString() + " Green";
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.collider.gameObject.tag == "Bubble")
@@ -72,6 +82,7 @@ public class Pitcher : MonoBehaviour
                         fills[flav.flavor].SetActive(true);
                     }
                     amount[flav.flavor] += 0.1f;
+                    UpdateText();
                 }
                 Destroy(collision.collider.gameObject);
             }
@@ -95,6 +106,7 @@ public class Pitcher : MonoBehaviour
                 amount[i] = 0;
                 fills[i].SetActive(false);
             }
+            UpdateText();
             disableTime = 0.1f;
             disablePos = gameObject.transform.position;
             disableRot = gameObject.transform.rotation;
