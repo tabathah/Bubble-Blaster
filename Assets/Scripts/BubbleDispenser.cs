@@ -11,13 +11,27 @@ public class BubbleDispenser : MonoBehaviour
     private bool on = false;
     private float onTime = 5;
     private float lastTime;
-    public int flavor; 
+    public int flavor;
+
+    public Color startColor;
+    public Color onColor;
+
+    AudioSource bubbleSound;
+    bool bubbleSoundIsPlaying;
+
 
     private void Start()
     {
         startSpawnBubbles();
         lastTime = Time.realtimeSinceStartup;
-        gameObject.GetComponent<Renderer>().materials[0].color = Color.red;
+        //gameObject.GetComponent<Renderer>().materials[0].color = Color.red;
+
+        startColor = gameObject.GetComponent<MeshRenderer>().materials[0].color;
+        onColor = Color.Lerp(startColor, Color.white, 0.75f);
+
+        bubbleSound = GetComponent<AudioSource>();
+        bubbleSoundIsPlaying = false;
+
     }
     private void Update()
     {
@@ -27,7 +41,13 @@ public class BubbleDispenser : MonoBehaviour
             onTime -= currTime - lastTime;
             if(onTime < 0)
             {
-                gameObject.GetComponent<Renderer>().materials[0].color = Color.red;
+                if (bubbleSoundIsPlaying)
+                {
+                    bubbleSoundIsPlaying = false;
+                    bubbleSound.Stop();
+                }
+
+                gameObject.GetComponent<MeshRenderer>().materials[0].color = startColor;
                 on = false;
                 onTime = 5;
                 print("off");
@@ -40,7 +60,11 @@ public class BubbleDispenser : MonoBehaviour
     {
         if(!on)
         {
-            gameObject.GetComponent<Renderer>().materials[0].color = Color.green;
+            Debug.Log("playing sound");
+            bubbleSound.Play();
+            bubbleSoundIsPlaying = true;
+
+            gameObject.GetComponent<MeshRenderer>().materials[0].color = onColor;
             print("on");
             on = true;
         }
