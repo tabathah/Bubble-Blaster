@@ -9,6 +9,8 @@ public class Bubble : MonoBehaviour
     public bool floating = true;
     private Vector3 velocity = new Vector3(0, 0, 0);
 
+    // these are flavor components
+
 
     Vector3 squareToDiskUniform(Vector2 v)
     {

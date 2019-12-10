@@ -7,6 +7,9 @@ TagManager:
   - Bubble
   - Laser
   - Dispenser
+  - projectile
+  - FxTemporaire
+  - Bowl
   layers:
   - Default
   - TransparentFX
