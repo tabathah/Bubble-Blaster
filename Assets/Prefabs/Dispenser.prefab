@@ -98,7 +98,6 @@ MonoBehaviour:
   flavor: 0
   startColor: {r: 0, g: 0, b: 1, a: 0}
   onColor: {r: 1, g: 0, b: 0.059297085, a: 0}
-  bubbleSound: {fileID: 0}
 --- !u!65 &1831662671864052757
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -124,7 +123,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: b1b3a52880200c7409121d16bb714171, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.35
   m_Pitch: 1
   Loop: 0
   Mute: 0
