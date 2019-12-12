@@ -16,20 +16,29 @@ public class IceCreamBowl : MonoBehaviour
     private Quaternion disableRot;
     private bool hitCustomer;
 
-
+    public bool isEmpty;
 
     void Start()
     {
-
+        isEmpty = true;
     }
 
     void Update()
     {
+        if (!GetComponent<Rigidbody>().useGravity)
+        {
+            GetComponent<Rigidbody>().useGravity = true;
+        }
+        if (GetComponent<Rigidbody>().freezeRotation)
+        {
+            GetComponent<Rigidbody>().freezeRotation = false;
+        }
         Vector3 currPos = new Vector3(0,0,0);
         for(int i = 0; i < amount.Length; i++)
         {
             if(!currScoops[i])
             {
+                isEmpty = false;
                 currScoops[i] = Instantiate(icecreamScoop, gameObject.transform.position, Quaternion.identity);
                 currScoops[i].GetComponent<Flavor>().changeFlavor(i);
                 currScoops[i].GetComponent<Flavor>().changeAmount(amount[i]);
@@ -50,13 +59,7 @@ public class IceCreamBowl : MonoBehaviour
         if ((disableTime <= 0) && (hitCustomer))
         {
             // remove ice cream scoops and bowl from scene
-
-            for (int i = 0; i < amount.Length; i++)
-            {
-                Destroy(currScoops[i]);
-            }
-
-            Destroy(gameObject);
+            destroyBowlAndIceCream();
         }
     }
 
@@ -91,4 +94,17 @@ public class IceCreamBowl : MonoBehaviour
     }
 
     // TO DO: VISUALLY SHOW AMOUNT OF ICECREAM
+
+    public void destroyBowlAndIceCream()
+    {
+        for (int i = 0; i < amount.Length; i++)
+        {
+            if (currScoops[i])
+            {
+                Destroy(currScoops[i]);
+            }
+        }
+
+        Destroy(gameObject);
+    }
 }

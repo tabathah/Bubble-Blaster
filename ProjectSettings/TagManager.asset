@@ -15,6 +15,9 @@ TagManager:
   - ClearButton
   - IceCreamBowl
   - Customer
+  - Bowl
+  - TrashCan
+  - Snail
   layers:
   - Default
   - TransparentFX

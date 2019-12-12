@@ -46,37 +46,42 @@ public class LaserScript : MonoBehaviour
             if(laserAction.GetLastState(handType))
             {
                 upTime += currTime - lastTime;
-                print(freezeAction.GetLastState(handType));
-                if (freezeAction.GetLastState(handType))
-                {
-                    print("freeze");
-                    freezeTransform.position = controllerPose.transform.position;
-                    freezeTransform.rotation = controllerPose.transform.rotation;
-                    if (!freezeRay.isPlaying)
-                    {
 
-                        freezeRay.Play();
-                    }
-                }
-                else
+                RaycastHit hit;
+                if (Physics.Raycast(controllerPose.transform.position, transform.forward, out hit, 1000))
                 {
-                    RaycastHit hit;
-                    if (Physics.Raycast(controllerPose.transform.position, transform.forward, out hit, 1000))
+                    hitPoint = hit.point;
+                    ShowLaser(hit);
+                    if (hit.collider.gameObject.tag == "Dispenser")
                     {
-                        hitPoint = hit.point;
-                        ShowLaser(hit);
-                        if (hit.collider.gameObject.tag == "Dispenser")
-                        {
-                            hit.collider.gameObject.GetComponent<BubbleDispenser>().pressButton();
-                        }
-                        else if (hit.collider.gameObject.tag == "Bubble")
-                        {
-                            hit.collider.gameObject.GetComponent<Bubble>().shootBubble();
-                        }
+                        hit.collider.gameObject.GetComponent<BubbleDispenser>().pressButton();
                     }
+                    else if (hit.collider.gameObject.tag == "Bubble")
+                    {
+                        hit.collider.gameObject.GetComponent<Bubble>().shootBubble();
+                    }
+					else if (hit.collider.gameObject.tag == "DispenseButton")
+					{
+						hit.collider.gameObject.GetComponentInParent<FreezeMachine>().dispense();
+					}
+					else if (hit.collider.gameObject.tag == "ClearButton")
+					{
+						hit.collider.gameObject.GetComponentInParent<FreezeMachine>().clearIceCream();
+					}
                 }
             }
-            else
+			else if (freezeAction.GetLastState(handType))
+			{
+				upTime += currTime - lastTime;
+				freezeTransform.position = controllerPose.transform.position;
+				freezeTransform.rotation = controllerPose.transform.rotation;
+				if (!freezeRay.isPlaying)
+				{
+
+					freezeRay.Play();
+				}
+			}
+			else
             {
                 laser.SetActive(false);
             }

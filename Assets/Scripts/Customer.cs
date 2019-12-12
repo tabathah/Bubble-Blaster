@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class Customer : MonoBehaviour
 {
+    private int totalScoops;
     public int[] order;
     public Text order1;
     public Text order2;
@@ -17,6 +18,9 @@ public class Customer : MonoBehaviour
     private float speedyServiceThresh;      // bonus is awarded for speedy service (i.e. fulfilling an order before a certain wait time)
     public float custSatisfaction;
     public Text satisfactionText;
+    bool toDestroy = false;
+    float destroyTimer = 0.0f;
+    float timeToDestroy = 5.0f;
 
     private AudioSource chompSound;
     private bool served;
@@ -25,19 +29,20 @@ public class Customer : MonoBehaviour
     void Start()
     {
         int numFlavs = Flavor.maxFlavors;
-        int totalScoops = 0;
+        totalScoops = 0;
         order = new int[numFlavs];
         for(int i = 0; i < numFlavs; i++)
         {
-            order[i] = (int)Mathf.Floor(Random.Range(0, 2));
+            order[i] = (int)Mathf.Floor(Random.Range(0, 3));
             totalScoops += order[i];
 ;       }
 
         if (totalScoops == 0)
         {
             // make sure that there is at least 1 flavor with 1 scoop
-            int randFlav = (int)Mathf.Floor(Random.Range(0, 2));
+            int randFlav = (int)Mathf.Floor(Random.Range(0, 3));
             order[randFlav] = 1;
+            totalScoops = 1;
         }
 
         order1.text = order[0].ToString() + " Blue";
@@ -48,13 +53,19 @@ public class Customer : MonoBehaviour
 
         totalWaitTime = 0.0f;
         speedyServiceThresh = 10.0f;
-        custPatience = 30.0f;
+        custPatience = 30.0f * totalScoops;
         custSatisfaction = 10.0f;
 
         satisfactionText.text = "Satisfaction: " + custSatisfaction.ToString() + "/10";
         waitTimeText.text = "Wait Time: " + totalWaitTime.ToString() + " s";
 
         served = false;
+
+        //float r = Random.Range(0.0f, 1.0f);
+        //float g = Random.Range(0.0f, 1.0f);
+        //float b = Random.Range(0.0f, 1.0f);
+        List<GameObject> childrenList = GetChildObjects(transform, "Snail");
+        childrenList[0].GetComponent<MeshRenderer>().materials[0].color = new Color(order[1]/2.0f, order[2] / 2.0f, order[0] / 2.0f);
     }
 
     // Update is called once per frame
@@ -77,6 +88,15 @@ public class Customer : MonoBehaviour
 
         
         waitTimeText.text = "Wait Time: " + System.Math.Round(totalWaitTime,0).ToString() + " s";
+
+        if(toDestroy)
+        {
+            destroyTimer += Time.deltaTime;
+            if(destroyTimer > timeToDestroy)
+            {
+                Destroy(gameObject);
+            }
+        }
     }
 
     public void EatIceCream(GameObject[] scoops)
@@ -92,7 +112,7 @@ public class Customer : MonoBehaviour
         {
             float scoopAmt = scoops[i].GetComponent<Flavor>().amount;
             totalIceCream += scoopAmt;
-            custSatisfaction -= Mathf.Abs(order[i] - scoopAmt) * 10;
+            custSatisfaction -= Mathf.Abs(order[i] - scoopAmt) * 5;
         }
 
         // calculate customer satisfaction based on total wait time
@@ -128,5 +148,23 @@ public class Customer : MonoBehaviour
         order1.text = "";
         order2.text = "";
         order3.text = "";
+
+        toDestroy = true;
+    }
+
+    private List<GameObject> GetChildObjects(Transform parent, string _tag)
+    {
+        List<GameObject> childrenList = new List<GameObject>();
+
+        for (int i = 0; i < parent.childCount; i++)
+        {
+            Transform child = parent.GetChild(i);
+            if (child.tag == _tag)
+            {
+                childrenList.Add(child.gameObject);
+            }
+        }
+
+        return childrenList;
     }
 }

@@ -47,6 +47,7 @@ public class Bubble : MonoBehaviour
         Color colorMod = Color.cyan;
         gameObject.GetComponent<Renderer>().materials[0].color = new Color(0.8f * thisCol.r + 0.2f * colorMod.r, 0.8f * thisCol.g + 0.2f * colorMod.g, 0.8f * thisCol.b + 0.2f * colorMod.b);
         popTime = 4;
+		gameObject.GetComponent<Flavor>().frozen = true;
     }
 
     // Update is called once per frame
@@ -54,7 +55,6 @@ public class Bubble : MonoBehaviour
     {
         float currTime = Time.realtimeSinceStartup;
         popTime -= currTime - lastTime;
-        print(popTime.ToString());
         if (popTime <= 0)
         {
             Destroy(gameObject);

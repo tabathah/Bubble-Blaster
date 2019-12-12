@@ -47,7 +47,6 @@ public class BubbleDispenser : MonoBehaviour
                 gameObject.GetComponent<MeshRenderer>().materials[0].color = startColor;
                 on = false;
                 onTime = 5;
-                print("off");
             }
         }
         lastTime = currTime;
@@ -60,7 +59,6 @@ public class BubbleDispenser : MonoBehaviour
             bubbleSound.Play();
 
             gameObject.GetComponent<MeshRenderer>().materials[0].color = onColor;
-            print("on");
             on = true;
         }
     }
@@ -75,7 +73,6 @@ public class BubbleDispenser : MonoBehaviour
 
         if (on)
         {
-            Debug.Log("Spawned a Bubble");
             GameObject b = Instantiate(bubble, this.gameObject.transform.position, Quaternion.identity);
             b.GetComponent<Flavor>().changeFlavor(this.flavor);
             //b.transform.parent = gameObject.transform;

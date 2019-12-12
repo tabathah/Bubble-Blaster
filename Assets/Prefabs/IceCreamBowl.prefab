@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 5725280602210151001}
   - component: {fileID: 5725280602210151000}
   m_Layer: 0
-  m_Name: CoolBowl
+  m_Name: IceCreamBowl
   m_TagString: IceCreamBowl
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -60,7 +60,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e1baa6d0c6727774f9a8cc3c76817edb, type: 2}
+  - {fileID: 2100000, guid: 6729a932de5127b419aacfd9be7dde0d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -104,6 +104,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  isEmpty: 0
 --- !u!54 &5725280602210151001
 Rigidbody:
   m_ObjectHideFlags: 0

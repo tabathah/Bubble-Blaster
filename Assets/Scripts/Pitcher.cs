@@ -6,8 +6,12 @@ using UnityEngine.UI;
 public class Pitcher : MonoBehaviour
 {
     public float[] amount = new float[Flavor.maxFlavors];
+    private float totalAmount;
+    private float maxCapacity;
     public GameObject fillObject;
-    private GameObject[] fills = new GameObject[Flavor.maxFlavors];
+    int currentFillIndex = 0;
+    private GameObject[] fills = new GameObject[50];
+    //private int[] fillOrder = new int[50];
     private Text m_Text;
     private float disableTime;
     private Vector3 disablePos;
@@ -29,27 +33,47 @@ public class Pitcher : MonoBehaviour
         startRot = gameObject.transform.rotation;
 
         sendToFreezeMachineSound = gameObject.GetComponent<AudioSource>();
+
+        totalAmount = 0.0f;
+        maxCapacity = 5.0f;
+
+    }
+
+    public void instantiateFill(int flav) {
+        if (!fills[currentFillIndex])
+        {
+            fills[currentFillIndex] = Instantiate(fillObject, gameObject.transform.position, Quaternion.identity);
+        }
+        fills[currentFillIndex].SetActive(true);
+        fills[currentFillIndex].GetComponent<Flavor>().changeFlavor(flav);
+
+        currentFillIndex++;
     }
 
     // Update is called once per frame
     void Update()
     {
-        Vector3 currPos = new Vector3(0, 0, 0);
-        currPos.y -= gameObject.transform.lossyScale.y * 0.9f;
-        for (int i = 0; i < amount.Length; i++)
+        if(!GetComponent<Rigidbody>().useGravity)
         {
-            if (!fills[i])
-            {
-                fills[i] = Instantiate(fillObject, gameObject.transform.position, Quaternion.identity);
-                fills[i].GetComponent<Flavor>().changeFlavor(i);
-                fills[i].SetActive(false);
-            }
-            currPos.y += amount[i] * 0.02f;
-            fills[i].transform.localScale = new Vector3(0.2f, amount[i] * 0.02f, 0.2f);
+            GetComponent<Rigidbody>().useGravity = true;
+        }
+        if(GetComponent<Rigidbody>().freezeRotation)
+        {
+            GetComponent<Rigidbody>().freezeRotation = false;
+        }
+
+
+        for (int i = 0; i < currentFillIndex; i++) {
+
+            Vector3 currPos = new Vector3(0, 0, 0);
+            currPos.y -= gameObject.transform.lossyScale.y * 0.9f;
+            currPos.y += 0.1f * 0.02f + (i * 0.1f * 0.02f);
+            fills[i].transform.localScale = new Vector3(0.2f, 0.1f * 0.02f, 0.2f);
             fills[i].transform.position = gameObject.transform.rotation * currPos + gameObject.transform.position;
             fills[i].transform.rotation = gameObject.transform.rotation;
-            currPos.y += amount[i] * 0.02f;
+
         }
+      
         if (disableTime > 0)
         {
             disableTime -= Time.deltaTime;
@@ -65,6 +89,24 @@ public class Pitcher : MonoBehaviour
         val3.text = System.Math.Round(amount[2], 1).ToString() + " Green";
     }
 
+    public void clearPitcher()
+    {
+        currentFillIndex = 0;
+        for (int i = 0; i < amount.Length; i++)
+        {
+            amount[i] = 0;
+        }
+
+        for (int i = 0; i < 50; i++) {
+            if (fills[i])
+            {
+                fills[i].SetActive(false);
+            }
+        }
+        totalAmount = 0;
+        UpdateText();
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.collider.gameObject.tag == "Bubble")
@@ -77,11 +119,14 @@ public class Pitcher : MonoBehaviour
                 Flavor flav = collision.collider.gameObject.GetComponent<Flavor>();
                 if(flav)
                 {
-                    if(amount[flav.flavor] == 0)
+                    instantiateFill(flav.flavor);
+                    if (totalAmount < maxCapacity)
                     {
-                        fills[flav.flavor].SetActive(true);
+                        amount[flav.flavor] += 0.1f;
+                        amount[flav.flavor] = (float)System.Math.Round(amount[flav.flavor], 1);
+                        totalAmount += 0.1f;
+                        totalAmount = (float)System.Math.Round(totalAmount, 1);
                     }
-                    amount[flav.flavor] += 0.1f;
                     UpdateText();
                 }
                 Destroy(collision.collider.gameObject);
@@ -93,7 +138,6 @@ public class Pitcher : MonoBehaviour
     {
         if (other.gameObject.tag == "PitcherSlot")
         {
-            print("collison between pitcher");
             if (!sendToFreezeMachineSound.isPlaying)
             {
                 sendToFreezeMachineSound.Play();
@@ -101,11 +145,7 @@ public class Pitcher : MonoBehaviour
 
             FreezeMachine fm = other.gameObject.GetComponentInParent<FreezeMachine>();
             fm.loadPitcher(amount);
-            for (int i = 0; i < amount.Length; i++)
-            {
-                amount[i] = 0;
-                fills[i].SetActive(false);
-            }
+            clearPitcher();
             UpdateText();
             disableTime = 0.1f;
             disablePos = gameObject.transform.position;
